@@ -43,6 +43,7 @@ mark_as_advanced(
 	USE_MUDFLAP
 	USE_WERROR
 	USE_VALGRIND
+	ENABLE_CFFI
 )
 
 # Where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
@@ -469,6 +470,19 @@ if (USE_MUDFLAP)
 endif ()
 
 
+################################################################################
+#FFI Stuff
+CHECK_INCLUDE_FILE(dlfcn.h HAVE_DLFCN)
+CHECK_INCLUDE_FILE(ffi.h HAVE_FFI)
+option(ENABLE_CFFI ""  ON)
+if (ENABLE_CFFI)
+	set(CMAKE_REQUIRED_LIBRARIES dlfcn)
+	set(CMAKE_REQUIRED_LIBRARIES ffi)
+	CFUNGE_REQUIRE_INCLUDE(ffi.h)
+	CFUNGE_REQUIRE_INCLUDE(dlfcn.h)
+	target_link_libraries(cfunge ffi)
+	target_link_libraries(cfunge dl)
+endif ()
 
 ################################################################################
 # Build info
@@ -518,3 +532,5 @@ install(FILES doc/cfunge.1
 ################################################################################
 # Flag to keep track of if this is the first configure run or not.
 set(CONFIGURED ON CACHE INTERNAL "")
+
+

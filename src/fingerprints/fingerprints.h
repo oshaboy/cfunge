@@ -64,6 +64,7 @@
 #include "TIME/TIME.h"
 #include "TOYS/TOYS.h"
 #include "TURT/TURT.h"
+#include "CFFI/CFFI.h"
 
 typedef struct s_ImplementedFingerprintEntry {
 	const funge_cell         fprint;   /**< Fingerprint. */
@@ -92,6 +93,9 @@ static const ImplementedFingerprintEntry ImplementedFingerprints[] = {
 	// BOOL - Logic Functions
 	{ .fprint = 0x424f4f4c, .uri = NULL, .loader = &finger_BOOL_load, .opcodes = "ANOX",
 	  .url = "http://rcfunge98.com/rcsfingers.html#BOOL", .safe = true },
+	// CFFI
+	{ .fprint = 0x43464649, .uri = NULL, .loader = &finger_CFFI_load, .opcodes = "BCDFGILMOPSTUWY",
+	  .url = "https://github.com/oshaboy/rcfunge-with-ffi", .safe = false },
 #if !defined(CFUN_NO_FLOATS)
 	// CPLI - Complex Integer extension
 	{ .fprint = 0x43504c49, .uri = NULL, .loader = &finger_CPLI_load, .opcodes = "ADMOSV",
@@ -192,6 +196,7 @@ static const ImplementedFingerprintEntry ImplementedFingerprints[] = {
 	{ .fprint = 0x54555254, .uri = NULL, .loader = &finger_TURT_load, .opcodes = "ABCDEFHILNPQRTU",
 	  .url = "http://catseye.tc/projects/funge98/library/TURT.html", .safe = true },
 #endif
+
 };
 
 #endif
