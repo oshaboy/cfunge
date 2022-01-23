@@ -244,5 +244,11 @@ bool finger_CFFI_load(instructionPointer * ip)
 	manager_add_opcode(CFFI, 'U', dlclose);
 	manager_add_opcode(CFFI, 'W', dereference);
 	manager_add_opcode(CFFI, 'Y', swap);
+	if (pstack!=NULL){
+		free(pstack);
+	}
+	pstack=malloc(sizeof(void*));
+	*pstack=NULL;
+	stack_ptr=1;
 	return true;
 }
