@@ -26,11 +26,11 @@
 #include <stdlib.h>
 #include <alloca.h>
 #include <stdio.h>
-#include "CFFI.h"
 #include "../../stack.h"
+#include "CFFI.h"
 void ** pstack=NULL;
 int stack_ptr;
-static inline void * popp(){
+static inline void * popp(void){
   register void * p = pstack[stack_ptr-1];
   stack_ptr--;
   pstack=realloc(pstack,stack_ptr*sizeof(void *));
@@ -80,6 +80,7 @@ static void finger_CFFI_generate_string(instructionPointer * ip)
 }
 static void finger_CFFI_swap(instructionPointer * ip)
 {
+  (void) ip;
   void * ptr1=popp();
   void * ptr2=popp();
   pushp(ptr1);
@@ -113,9 +114,10 @@ static void finger_CFFI_funge_to_pointer(instructionPointer * ip){
   pushp((void*)ptr);
 }
 static void finger_CFFI_print_pstack(instructionPointer * ip){
+  (void) ip;
   for (int i=stack_ptr-1; i>=0; i--){
     if (pstack[i]){
-      printf("%d: %lx (First Word is %d)\n",i, pstack[i],*(funge_cell *)(pstack[i]));
+      printf("%d: %lx (First Word is %d)\n",i, (long unsigned int)pstack[i],*(int *)(pstack[i]));
     } else {
       printf("%d: NULL\n",i);
     }
@@ -140,6 +142,7 @@ static void finger_CFFI_dlopen(instructionPointer * ip){
   }
 }
 static void finger_CFFI_popp(instructionPointer * ip){
+  (void) ip;
   popp();
 }
 static void finger_CFFI_pointer_to_funge(instructionPointer * ip){
@@ -149,6 +152,7 @@ static void finger_CFFI_pointer_to_funge(instructionPointer * ip){
   stack_push(ip->stack, high); stack_push(ip->stack,low);
 }
 static void finger_CFFI_duplicate(instructionPointer * ip){
+  (void) ip;
   pushp(pstack[stack_ptr-1]);
 }
 
@@ -178,7 +182,7 @@ void finger_CFFI_ccall(instructionPointer * ip){
   while(lensave>0){	
     /* Get (part of if over 32 arguments) the bitmask for the arguments*/
     funge_cell cur=stack_pop(ip->stack); 
-    for (int i=0; i<sizeof(funge_cell)*8&&lensave>0; i++){
+    for (int i=0; (i<sizeof(funge_cell)*8)&&(lensave>0); i++){
       if (cur&1){
         argtypes[count]=&ffi_type_pointer;
       } else {
