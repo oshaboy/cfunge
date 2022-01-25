@@ -65,6 +65,7 @@
 #include "TOYS/TOYS.h"
 #include "TURT/TURT.h"
 #include "CFFI/CFFI.h"
+#include "HQ9+/HQ9+.h"
 
 typedef struct s_ImplementedFingerprintEntry {
 	const funge_cell         fprint;   /**< Fingerprint. */
@@ -133,6 +134,9 @@ static const ImplementedFingerprintEntry ImplementedFingerprints[] = {
 	// FRTH - Some common forth commands
 	{ .fprint = 0x46525448, .uri = NULL, .loader = &finger_FRTH_load, .opcodes = "DLOPR",
 	  .url = "http://rcfunge98.com/rcsfingers.html", .safe = true },
+	// HQ9+ - High-Resolution Timer Interface
+	{ .fprint = 0x4851392b, .uri = NULL, .loader = &finger_HQ9P_load, .opcodes = "HNPQ",
+	  .url = "http://catseye.tc/projects/funge98/library/HRTI.html", .safe = true },
 	// HRTI - High-Resolution Timer Interface
 	{ .fprint = 0x48525449, .uri = NULL, .loader = &finger_HRTI_load, .opcodes = "EGMST",
 	  .url = "http://catseye.tc/projects/funge98/library/HRTI.html", .safe = true },
