@@ -91,6 +91,12 @@ static void finger_CFFI_dereference(instructionPointer * ip){
   funge_cell * arr=popp();
   stack_push(ip->stack,arr[index]);
 }
+static void finger_CFFI_write_to_arr(instructionPointer * ip){
+  funge_cell index=stack_pop(ip->stack);
+  funge_cell data=stack_pop(ip->stack);
+  funge_cell * arr=popp();
+  arr[index]=data;
+}
 static void finger_CFFI_dlclose(instructionPointer * ip){
   if(dlclose(popp())){
     ip_reverse(ip);
@@ -247,6 +253,7 @@ bool finger_CFFI_load(instructionPointer * ip)
 	manager_add_opcode(CFFI, 'T', dlsym);
 	manager_add_opcode(CFFI, 'U', dlclose);
 	manager_add_opcode(CFFI, 'W', dereference);
+	manager_add_opcode(CFFI, 'X', write_to_arr);
 	manager_add_opcode(CFFI, 'Y', swap);
 	if (pstack!=NULL){
 		free(pstack);
